@@ -2,7 +2,7 @@
 using System.ServiceModel;
 
 namespace EmployeeServiceHost
-{
+{   
     class Program
     {
         static void Main(string[] args)
