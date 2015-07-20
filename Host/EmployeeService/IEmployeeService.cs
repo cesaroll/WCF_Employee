@@ -1,4 +1,5 @@
 ﻿using System.ServiceModel;
+using EmployeeService.Entity;
 
 namespace EmployeeService
 {

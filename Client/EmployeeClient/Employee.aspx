@@ -36,6 +36,34 @@
                 </td>
             </tr>
             <tr>
+                <td>Employee Type</td>
+                <td>
+                    <asp:DropDownList ID="ddlEmpType" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlEmpType_SelectedIndexChanged">
+                        <asp:ListItem Text="Select Employee Type" Value="0"></asp:ListItem>
+                        <asp:ListItem Text="Full Time Employee" Value="1"></asp:ListItem>
+                        <asp:ListItem Text="Part Time Employee" Value="2"></asp:ListItem>
+                    </asp:DropDownList>
+                </td>
+            </tr>
+           <tr id="trAnualSal" runat="server" Visible="false">
+                <td>Annual Salary</td>
+                <td>
+                    <asp:TextBox ID="txtAnualSal" runat="server"></asp:TextBox>
+                </td>
+            </tr>
+            <tr id="trHourlyPay" runat="server" Visible="false">
+                <td>Hourly Pay</td>
+                <td>
+                    <asp:TextBox ID="txtHourlyPay" runat="server"></asp:TextBox>
+                </td>
+            </tr>
+            <tr id="trHoursWorked" runat="server" Visible="false">
+                <td>Hours Worked</td>
+                <td>
+                    <asp:TextBox ID="txtHoursWorked" runat="server"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
                 <td>
                     <asp:Button ID="btnGetEmployee" runat="server" Text="Get Employee" OnClick="btnGetEmployee_Click" />
                 </td>

@@ -62,6 +62,9 @@
     <None Include="Service References\EmployeeServiceReference\item.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\EmployeeServiceReference\item3.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -104,6 +107,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Util\StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

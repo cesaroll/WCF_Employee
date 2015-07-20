@@ -43,10 +43,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Employee.cs" />
+    <Compile Include="Entity\Employee.cs" />
+    <Compile Include="Entity\Interface\IEntity.cs" />
+    <Compile Include="Factory\EmployeeFactory.cs" />
     <Compile Include="EmployeeService.cs" />
+    <Compile Include="Entity\EmployeeFullTime.cs" />
+    <Compile Include="Factory\EmployeeFullTimeFactory.cs" />
+    <Compile Include="Factory\EmployeePartTimeFactory.cs" />
+    <Compile Include="Factory\Interface\IFactory.cs" />
     <Compile Include="IEmployeeService.cs" />
+    <Compile Include="Entity\EmployeePartTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\DBUtil.cs" />
+    <Compile Include="Util\FactoryUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Service\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
