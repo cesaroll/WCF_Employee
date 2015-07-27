@@ -1,11 +1,111 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using System.ServiceModel;
 using EmployeeService.Entity.Interface;
 using EmployeeService.Factory;
 using EmployeeService.Factory.Interface;
 
 namespace EmployeeService.Entity
 {
+    [MessageContract(IsWrapped = true, WrapperName = "EmployeeRequestObject", WrapperNamespace = "http://MyCompany.com/Employee")]
+    public class EmployeeRequest
+    {
+        [MessageHeader(Namespace = "http://MyCompany.com/Employee", ProtectionLevel = System.Net.Security.ProtectionLevel.None)]
+        public string LicenseKey { get; set; }
+
+        [MessageBodyMember(Namespace = "http://MyCompany.com/Employee")]
+        public int EmployeeId { get; set; }
+    }
+
+    [MessageContract(IsWrapped = true, WrapperName = "EmployeeInfoObject", WrapperNamespace = "http://MyCompany.com/Employee")]
+    public class EmployeeInfo
+    {
+        public EmployeeInfo()
+        {
+        }
+
+        public EmployeeInfo(Employee employee)
+        {
+            if (employee == null)
+                return;
+
+            this.Id = employee.Id;
+            this.Name = employee.Name;
+            this.Gender = employee.Gender;
+            this.DOB = employee.DateOfBirth;
+            this.Type = employee.Type;
+
+            if (this.Type == EmployeeType.EmployeeFullTime)
+            {
+                this.AnnualSalary = ((EmployeeFullTime) employee).AnnualSalary;
+            }
+            else
+            {
+                this.HourlyPay = ((EmployeePartTime)employee).HourlyPay;
+                this.HoursWorked = ((EmployeePartTime)employee).HoursWorked;
+            }
+
+        }
+
+        public static explicit operator Employee(EmployeeInfo empInfo)
+        {
+            Employee emp = null;
+
+            if (empInfo.Type == EmployeeType.EmployeeFullTime)
+            {
+                emp = new EmployeeFullTime()
+                {
+                    Id = empInfo.Id,
+                    Name = empInfo.Name,
+                    Gender = empInfo.Gender,
+                    DateOfBirth = empInfo.DOB,
+                    Type = empInfo.Type,
+                    AnnualSalary = empInfo.AnnualSalary
+                };
+            }
+            else
+            {
+                emp = new EmployeePartTime()
+                {
+                    Id = empInfo.Id,
+                    Name = empInfo.Name,
+                    Gender = empInfo.Gender,
+                    DateOfBirth = empInfo.DOB,
+                    Type = empInfo.Type,
+                    HourlyPay = empInfo.HourlyPay,
+                    HoursWorked = empInfo.HoursWorked
+                };
+                
+            }
+
+            return emp;
+        }
+
+        [MessageBodyMember(Order = 1, Namespace = "http://MyCompany.com/Employee")]
+        public int Id { get; set; }
+
+        [MessageBodyMember(Order = 2, Namespace = "http://MyCompany.com/Employee")]
+        public string Name { get; set; }
+
+        [MessageBodyMember(Order = 3, Namespace = "http://MyCompany.com/Employee")]
+        public string Gender { get; set; }
+
+        [MessageBodyMember(Order = 4, Namespace = "http://MyCompany.com/Employee")]
+        public DateTime DOB { get; set; }
+
+        [MessageBodyMember(Order = 5, Namespace = "http://MyCompany.com/Employee")]
+        public EmployeeType Type { get; set; }
+
+        [MessageBodyMember(Order = 6, Namespace = "http://MyCompany.com/Employee")]
+        public decimal AnnualSalary { get; set; }
+
+        [MessageBodyMember(Order = 7, Namespace = "http://MyCompany.com/Employee")]
+        public decimal HourlyPay { get; set; }
+
+        [MessageBodyMember(Order = 8, Namespace = "http://MyCompany.com/Employee")]
+        public int HoursWorked { get; set; }
+    }
+
     [DataContract(Namespace = "http://cesartech.com/2015/07/17/Employee")]
     [KnownType(typeof(EmployeeFullTime))]
     [KnownType(typeof(EmployeePartTime))]

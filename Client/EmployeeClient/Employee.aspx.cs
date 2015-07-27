@@ -20,42 +20,38 @@ namespace EmployeeClient
 
         protected void btnGetEmployee_Click(object sender, EventArgs e)
         {
-            var client = new EmployeeServiceReference.EmployeeServiceClient();
-
-            EmployeeServiceReference.Employee emp = client.GetEmployee(Convert.ToInt32(txtId.Text));
+            var empRequest = new EmployeeServiceReference.EmployeeRequest("AXG120ABC", Convert.ToInt32(txtId.Text));
 
             
-            if (emp != null)
+            var client = new EmployeeServiceReference.EmployeeServiceClient();
+
+            var empinfo = client.GetEmployee(empRequest);
+
+            
+            if (empinfo != null)
             {
 
-                txtName.Text = emp.Name;
-                txtGender.Text = emp.Gender;
-                txtDoB.Text = emp.DateOfBirth.ToShortDateString();
+                txtName.Text = empinfo.Name;
+                txtGender.Text = empinfo.Gender;
+                txtDoB.Text = empinfo.DOB.ToShortDateString();
 
 
-                ddlEmpType.SelectedValue = ((int) emp.Type).ToString();
+                ddlEmpType.SelectedValue = ((int) empinfo.Type).ToString();
 
-                SetFieldsVisible(emp.Type);
+                SetFieldsVisible(empinfo.Type);
 
                 txtAnualSal.Text = string.Empty;
                 txtHourlyPay.Text = string.Empty;
                 txtHoursWorked.Text = string.Empty;
 
-                var empFullTime = emp as EmployeeServiceReference.EmployeeFullTime;
-
-                if (empFullTime != null)
+                if (empinfo.Type == EmployeeServiceReference.EmployeeType.EmployeeFullTime)
                 {
-                    txtAnualSal.Text = empFullTime.AnnualSalary.ToString();
+                    txtAnualSal.Text = empinfo.AnnualSalary.ToString();
                 }
                 else
                 {
-                    var empHourly = emp as EmployeeServiceReference.EmployeePartTime;
-
-                    if (empHourly != null)
-                    {
-                        txtHourlyPay.Text = empHourly.HourlyPay.ToString();
-                        txtHoursWorked.Text = empHourly.HoursWorked.ToString();
-                    }
+                    txtHourlyPay.Text = empinfo.HourlyPay.ToString();
+                    txtHoursWorked.Text = empinfo.HoursWorked.ToString();
                 }
 
 
@@ -69,33 +65,25 @@ namespace EmployeeClient
         protected void btnSave_Click(object sender, EventArgs e)
         {
             EmployeeType empType = ddlEmpType.SelectedValue.ToEmployeeType();
-            EmployeeServiceReference.Employee emp = null;
+
+            var empInfo = new EmployeeServiceReference.EmployeeInfo()
+            {
+                Id = Convert.ToInt32(txtId.Text),
+                Name = txtName.Text,
+                Gender = txtGender.Text,
+                DOB = Convert.ToDateTime(txtDoB.Text),
+                Type = empType
+            };
 
 
             if (empType == EmployeeType.EmployeeFullTime)
             {
-                emp = new EmployeeServiceReference.EmployeeFullTime()
-                {
-                    ID = Convert.ToInt32(txtId.Text),
-                    Name = txtName.Text,
-                    Gender = txtGender.Text,
-                    DateOfBirth = Convert.ToDateTime(txtDoB.Text),
-                    Type = empType,
-                    AnnualSalary = Convert.ToDecimal(txtAnualSal.Text)
-                };
+                empInfo.AnnualSalary = Convert.ToDecimal(txtAnualSal.Text);
             }
             else if (empType == EmployeeType.EmployeePartTime)
             {
-                emp = new EmployeeServiceReference.EmployeePartTime()
-                {
-                    ID = Convert.ToInt32(txtId.Text),
-                    Name = txtName.Text,
-                    Gender = txtGender.Text,
-                    DateOfBirth = Convert.ToDateTime(txtDoB.Text),
-                    Type = empType,
-                    HourlyPay = Convert.ToDecimal(txtHourlyPay.Text),
-                    HoursWorked = Convert.ToInt32(txtHoursWorked.Text)
-                };
+                empInfo.HourlyPay = Convert.ToDecimal(txtHourlyPay.Text);
+                empInfo.HoursWorked = Convert.ToInt32(txtHoursWorked.Text);
             }
             else
             {
@@ -106,7 +94,7 @@ namespace EmployeeClient
             
             var client = new EmployeeServiceReference.EmployeeServiceClient();
 
-            client.SaveEmployee(emp);
+            client.SaveEmployee(empInfo);
 
             lblmsg.ForeColor = Color.Green;
             lblmsg.Text = "Employee Saved";
