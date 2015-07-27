@@ -12,7 +12,6 @@ namespace EmployeeService
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class EmployeeService : IEmployeeService
     {
-        private EmployeeInfo _lastEmployeeInfo;
         public EmployeeInfo GetEmployee(EmployeeRequest request)
         {
             Console.WriteLine("License key = " + request.LicenseKey);
@@ -21,12 +20,7 @@ namespace EmployeeService
 
             var employee = empFact.GetFromDb(request.EmployeeId);
 
-            var employeeInfo = new EmployeeInfo(employee);
-
-            if (_lastEmployeeInfo != null && request.EmployeeId == _lastEmployeeInfo.Id)
-            {
-                employeeInfo.ExtensionData = _lastEmployeeInfo.ExtensionData;
-            }
+            var employeeInfo = EmployeeInfo.ConvertToEmployeeInfo(employee);
 
             return employeeInfo;
         }
@@ -35,8 +29,6 @@ namespace EmployeeService
         {
             if (employeeInfo == null)
                 return;
-
-            _lastEmployeeInfo = employeeInfo;
 
             var employee = (Employee) employeeInfo;
 

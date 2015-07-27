@@ -22,12 +22,21 @@ namespace EmployeeClient
         {
             var empRequest = new EmployeeServiceReference.EmployeeRequest("AXG120ABC", Convert.ToInt32(txtId.Text));
 
+            EmployeeServiceReference.EmployeeInfo empinfo = null;
             
             var client = new EmployeeServiceReference.EmployeeServiceClient();
+            try
+            {
+                empinfo = client.GetEmployee(empRequest);
+            }
+            catch (Exception)
+            {
+                lblmsg.ForeColor = Color.Red;
+                lblmsg.Text = "Employee Not Found";
+            }
 
-            var empinfo = client.GetEmployee(empRequest);
 
-            
+
             if (empinfo != null)
             {
 
@@ -54,11 +63,14 @@ namespace EmployeeClient
                     txtHoursWorked.Text = empinfo.HoursWorked.ToString();
                 }
 
-
+                lblmsg.ForeColor = Color.Green;
                 lblmsg.Text = "Employee retrieved";
             }
             else
+            {
+                lblmsg.ForeColor = Color.Red;
                 lblmsg.Text = "Employee Not Found";
+            }
 
         }
 

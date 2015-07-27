@@ -19,13 +19,13 @@ namespace EmployeeService.Entity
     }
 
     [MessageContract(IsWrapped = true, WrapperName = "EmployeeInfoObject", WrapperNamespace = "http://MyCompany.com/Employee")]
-    public class EmployeeInfo : IExtensibleDataObject
+    public class EmployeeInfo
     {
         public EmployeeInfo()
         {
         }
 
-        public EmployeeInfo(Employee employee)
+        /*public EmployeeInfo(Employee employee)
         {
             if (employee == null)
                 return;
@@ -46,7 +46,35 @@ namespace EmployeeService.Entity
                 this.HoursWorked = ((EmployeePartTime)employee).HoursWorked;
             }
 
+        }*/
+
+        public static EmployeeInfo ConvertToEmployeeInfo(Employee employee)
+        {
+            if (employee == null)
+                return null;
+
+            var employeeInfo = new EmployeeInfo()
+            {
+                Id = employee.Id,
+                Name = employee.Name,
+                Gender = employee.Gender,
+                DOB = employee.DateOfBirth,
+                Type = employee.Type
+            };
+
+            if (employeeInfo.Type == EmployeeType.EmployeeFullTime)
+            {
+                employeeInfo.AnnualSalary = ((EmployeeFullTime)employee).AnnualSalary;
+            }
+            else
+            {
+                employeeInfo.HourlyPay = ((EmployeePartTime)employee).HourlyPay;
+                employeeInfo.HoursWorked = ((EmployeePartTime)employee).HoursWorked;
+            }
+
+            return employeeInfo;
         }
+
 
         public static explicit operator Employee(EmployeeInfo empInfo)
         {
@@ -106,7 +134,6 @@ namespace EmployeeService.Entity
         [MessageBodyMember(Order = 8, Namespace = "http://MyCompany.com/Employee")]
         public int HoursWorked { get; set; }
 
-        public ExtensionDataObject ExtensionData { get; set; }
     }
 
     [DataContract(Namespace = "http://cesartech.com/2015/07/17/Employee")]
