@@ -25,29 +25,6 @@ namespace EmployeeService.Entity
         {
         }
 
-        /*public EmployeeInfo(Employee employee)
-        {
-            if (employee == null)
-                return;
-
-            this.Id = employee.Id;
-            this.Name = employee.Name;
-            this.Gender = employee.Gender;
-            this.DOB = employee.DateOfBirth;
-            this.Type = employee.Type;
-
-            if (this.Type == EmployeeType.EmployeeFullTime)
-            {
-                this.AnnualSalary = ((EmployeeFullTime) employee).AnnualSalary;
-            }
-            else
-            {
-                this.HourlyPay = ((EmployeePartTime)employee).HourlyPay;
-                this.HoursWorked = ((EmployeePartTime)employee).HoursWorked;
-            }
-
-        }*/
-
         public static EmployeeInfo ConvertToEmployeeInfo(Employee employee)
         {
             if (employee == null)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.Web;
 using System.Web.UI;
@@ -29,10 +30,11 @@ namespace EmployeeClient
             {
                 empinfo = client.GetEmployee(empRequest);
             }
-            catch (Exception)
+            catch (FaultException fultException)
             {
                 lblmsg.ForeColor = Color.Red;
-                lblmsg.Text = "Employee Not Found";
+                lblmsg.Text = fultException.Message;
+                return;
             }
 
 
