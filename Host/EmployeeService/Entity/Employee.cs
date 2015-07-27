@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using EmployeeService.Entity.Interface;
@@ -131,7 +132,10 @@ namespace EmployeeService.Entity
 
         [DataMember(Order = 5)]
         public virtual EmployeeType Type { get; set; }
-    
+
+        [DataMember(Order = 6)]
+        public string City { get; set; }
+        
         IFactory IEntity.GetFactory()
         {
             return GetFactory();

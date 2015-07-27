@@ -43,6 +43,7 @@ namespace EmployeeService.Factory
                                 Gender = reader["Gender"].ToString(),
                                 DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
                                 Type = EmployeeType.EmployeeFullTime,
+                                City = reader["City"].ToString(),
                                 AnnualSalary = Convert.ToDecimal(reader["AnnualSalary"])
                             };
 
@@ -54,6 +55,7 @@ namespace EmployeeService.Factory
                                 Gender = reader["Gender"].ToString(),
                                 DateOfBirth = Convert.ToDateTime(reader["DateOfBirth"]),
                                 Type = EmployeeType.EmployeePartTime,
+                                City = reader["City"].ToString(),
                                 HourlyPay = Convert.ToDecimal(reader["HourlyPay"]),
                                 HoursWorked = Convert.ToInt32(reader["HoursWorked"])
                             };
@@ -82,6 +84,7 @@ namespace EmployeeService.Factory
                 cmd.Parameters.Add(new SqlParameter("@Gender", employee.Gender));
                 cmd.Parameters.Add(new SqlParameter("@DateOfBirth", employee.DateOfBirth));
                 cmd.Parameters.Add(new SqlParameter("@EmployeeType", employee.Type));
+                cmd.Parameters.Add(new SqlParameter("@City", employee.City));
 
                 PersistAddExtraParameters(cmd.Parameters, employee);
 
