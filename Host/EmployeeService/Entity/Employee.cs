@@ -19,7 +19,7 @@ namespace EmployeeService.Entity
     }
 
     [MessageContract(IsWrapped = true, WrapperName = "EmployeeInfoObject", WrapperNamespace = "http://MyCompany.com/Employee")]
-    public class EmployeeInfo
+    public class EmployeeInfo : IExtensibleDataObject
     {
         public EmployeeInfo()
         {
@@ -105,6 +105,8 @@ namespace EmployeeService.Entity
 
         [MessageBodyMember(Order = 8, Namespace = "http://MyCompany.com/Employee")]
         public int HoursWorked { get; set; }
+
+        public ExtensionDataObject ExtensionData { get; set; }
     }
 
     [DataContract(Namespace = "http://cesartech.com/2015/07/17/Employee")]
