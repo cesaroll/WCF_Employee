@@ -21,7 +21,7 @@ sp_helptext spSaveEmployee
 ALTER Procedure spSaveEmployee
 @Id int,
 @Name nvarchar(50),
-@Gender nvarchar(50), 
+@Gender nvarchar(50) = null, 
 @DateOfBirth DateTime,
 @EmployeeType int,
 @AnnualSalary decimal(18,2) = 0,
